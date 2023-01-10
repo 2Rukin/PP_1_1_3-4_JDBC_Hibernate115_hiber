@@ -84,12 +84,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
+            List<User> userList = session
+                    .createQuery("SELECT a FROM User a", User.class).getResultList();
 
-        List<User> userList = sessionFactory.openSession()
-                .createQuery("SELECT a FROM User a", User.class).getResultList();
-
-        return userList.size() > 0 ? userList : new ArrayList<>();
-    }
+            return userList.size() > 0 ? userList : new ArrayList<>();
+        }
 
 //    @Override
 //    public List<User> getAllUsers() {
@@ -104,15 +104,16 @@ public class UserDaoHibernateImpl implements UserDao {
 //        return query.list();
 //    }
 
+    }
+
     @Override
     public void cleanUsersTable() {
-
-        Session session = sessionFactory.openSession();
-        final String sql = "TRUNCATE TABLE users;";
-        session.beginTransaction();
-        Query query = session.createSQLQuery(sql);
-        query.executeUpdate();
-        session.getTransaction().commit();
-
+        try (Session session = sessionFactory.openSession()) {
+            final String sql = "TRUNCATE TABLE users;";
+            session.beginTransaction();
+            Query query = session.createSQLQuery(sql);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
     }
 }
