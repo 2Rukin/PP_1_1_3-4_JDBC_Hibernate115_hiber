@@ -23,24 +23,6 @@ public class Util {
                 .build());
     }
 
-    /*private static SessionFactory sessionFactory;
-
-    static {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure()
-                .build();
-        try {
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        } catch (Exception e) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-
-    }
-    public static SessionFactory getSessionFactory(){
-        return sessionFactory;
-    }
-
-     */
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         String login = "root";
